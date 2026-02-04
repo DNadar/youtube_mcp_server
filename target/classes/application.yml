@@ -1,0 +1,16 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: yt-mcp
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://${AUTH0_DOMAIN}/
+
+auth0:
+  domain: ${AUTH0_DOMAIN}
+  audience: ${AUTH0_AUDIENCE}
+  resource-server-url: ${RESOURCE_SERVER_URL}
