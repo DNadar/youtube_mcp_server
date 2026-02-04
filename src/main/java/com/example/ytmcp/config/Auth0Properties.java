@@ -24,11 +24,11 @@ public class Auth0Properties {
 
     @PostConstruct
     void validate() {
-        if (!StringUtils.hasText(domain)) {
-            throw new IllegalStateException("AUTH0_DOMAIN environment variable is required");
+        if (!StringUtils.hasText(domain) || isPlaceholder(domain)) {
+            throw new IllegalStateException("AUTH0_DOMAIN environment variable is required (auth0.domain)");
         }
-        if (!StringUtils.hasText(audience)) {
-            throw new IllegalStateException("AUTH0_AUDIENCE environment variable is required");
+        if (!StringUtils.hasText(audience) || isPlaceholder(audience)) {
+            throw new IllegalStateException("AUTH0_AUDIENCE environment variable is required (auth0.audience)");
         }
     }
 
@@ -58,5 +58,9 @@ public class Auth0Properties {
 
     public String issuer() {
         return "https://" + domain + "/";
+    }
+
+    private boolean isPlaceholder(String value) {
+        return value.contains("${") || value.contains("}");
     }
 }
