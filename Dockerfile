@@ -5,14 +5,13 @@ WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 
-RUN mvn -B -DskipTests clean package
+RUN mvn -B -DskipTests clean package spring-boot:repackage
 
 # ---- Runtime stage ----
 FROM eclipse-temurin:21-jre
 WORKDIR /app
 
-# If you produce a single jar:
-COPY --from=builder /app/target/*.jar app.jar
+COPY --from=builder /app/target/yt-mcp-server-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","app.jar"]
